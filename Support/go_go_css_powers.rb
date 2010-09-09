@@ -950,6 +950,7 @@ ShortCuts = {
 def findFirst( array, head, tail )
   foundTail = ''
   array||= []
+  
   result = array.select do |item|
     # now it can be a hash with name or just an array
     where = item
@@ -962,6 +963,7 @@ def findFirst( array, head, tail )
 
   # we return an array, maybe make a class instead, make all the upper stuff at init and get .prop or .value just when needed?
   # or maybe move it to a richer class as a method, so we'd not make any results, but setting attrs of this class lol
+
   if result[0].class == Hash
     [
       result[0]['name'],
@@ -996,6 +998,7 @@ def ParseAbbreviation( input )
           current[1][index+1,current[1].length]
         ]
         result = {'found',findFirst(Props,split[0],split[1])}
+
         break if result['found']
       end
     end
