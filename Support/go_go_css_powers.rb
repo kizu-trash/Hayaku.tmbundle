@@ -11,13 +11,16 @@ require require_support + 'ololo_dictionary.rb'
 def findFirst( array, head, tail )
   array||= []
   
+  stricter = ''
+  stricter = '(?!\w*-)' if array[0].class != String
+  
   result = array.select do |item|
     # now it can be a hash with name or just an array
     where = item
     where = item['name'] if item.class == Hash
     
     # lulz regexp and conditional tail
-    true if where.gsub(/([a-z])([A-Z])/,'\1_\2') =~ Regexp.new('^' + head.split('').join('(\w*[-_])?') + '(?!\w*-)', true)\
+    true if where.gsub(/([a-z])([A-Z])/,'\1_\2') =~ Regexp.new('^' + head.split('').join('(\w*[-_])?') + stricter, true)\
       && (tail == '' || findFirst(item['values'],tail,''))
   end
 
