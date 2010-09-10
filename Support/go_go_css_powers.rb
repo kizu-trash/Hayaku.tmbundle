@@ -69,9 +69,9 @@ def ParseAbbreviation( input )
       foundUnit = Props.select{ |item| item['name'] == result['found'][0] && item['units'] }[0]
       if current[2] && foundUnit
         dimension = case current[2]
-          when '00'
+          when '1' # create a Dict option for it 'cause there are borders and other stuff for it
             '100%'
-          when '0'
+          when '0' # again - create a Dict option, however it's not that bad ad prev
             '0'
           else
             current[2] +
