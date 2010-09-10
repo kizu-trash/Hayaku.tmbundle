@@ -49,7 +49,7 @@ def ParseAbbreviation( input )
     result = nil
 
     #find extras in input
-    current = input.match(/([^\d\.]*[^\d\.-])(?:(-?\d*\.?\d+)(\w\w|%)?)?/)
+    current = input.match(/([^\d\.!]*[^\d\.\-!])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/)
 
     if current[1].include? ':' #soft find if there is a delimiter (btw move it to config)
       split = current[1].split(':')
@@ -89,6 +89,7 @@ def ParseAbbreviation( input )
           end
         result['dimension'] = dimension if dimension
       end
+      result['importance'] = true if current[4]
 
       result      
     else
@@ -106,10 +107,12 @@ def ExpandCSSAbbreviation( inputs )
   results = []
   inputs.split(';').each do |input|
     expanded = ParseAbbreviation(input)
+    
     if expanded
       result = $ololo[0] + expanded['found'][0].downcase + ': ' # space move to config
       result += expanded['found'][1].downcase if expanded['found'][1]
       result += expanded['dimension']||'|'
+      result += ' !important' if expanded['importance']
       result += ';'
       
       results << result
