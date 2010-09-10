@@ -22,18 +22,18 @@ Commons = {
 		'inset',
 		'outset'
 	],
-	'lengths' =>
-	[
-		'px',
-		'em',
-		'ex',
-		'%',
-		'in',
-		'cm',
-		'mm',
-		'pt',
-		'pc'
-	]
+  'lengths' =>
+  [
+    'px',
+    'em',
+    'ex',
+    '%',
+    'in',
+    'cm',
+    'mm',
+    'pt',
+    'pc'
+  ],
 }
 
 Props = [
@@ -109,22 +109,18 @@ Props = [
 	},
 	{
 		'name' => 'top',
-		'values' => ['auto'],
 		'units' => Commons['lengths'],
 	},
 	{
 		'name' => 'right',
-		'values' => ['auto'],
 		'units' => Commons['lengths'],
 	},
 	{
 		'name' => 'bottom',
-		'values' => ['auto'],
 		'units' => Commons['lengths'],
 	},
 	{
 		'name' => 'left',
-		'values' => ['auto'],
 		'units' => Commons['lengths'],
 	},
 	{
@@ -447,6 +443,7 @@ Props = [
 	},
 	{
 		'name' => 'backGround-position',
+		'values' => Commons['repeats']
 	},
 	{
 		'name' => 'backGround-position-x',
@@ -948,7 +945,6 @@ ShortCuts = {
 
 # oh hai, findfirster!
 def findFirst( array, head, tail )
-  foundTail = ''
   array||= []
   
   result = array.select do |item|
@@ -958,24 +954,25 @@ def findFirst( array, head, tail )
     
     # lulz regexp and conditional tail
     true if where.gsub(/([a-z])([A-Z])/,'\1_\2') =~ Regexp.new('^' + head.split('').join('(\w*[-_])?') + '(?!\w*-)', true)\
-      && (tail == '' || foundTail = findFirst(item['values'],tail,''))
+      && (tail == '' || findFirst(item['values'],tail,''))
   end
 
   # we return an array, maybe make a class instead, make all the upper stuff at init and get .prop or .value just when needed?
   # or maybe move it to a richer class as a method, so we'd not make any results, but setting attrs of this class lol
 
+  foundTail0 = findFirst(result[0]['values'],tail,'') if result[0] && tail != ''
+  foundTail0||=['']
   if result[0].class == Hash
     [
       result[0]['name'],
-      foundTail[0]
-    ] if foundTail[0] || tail == ''
+      foundTail0[0]
+    ] if foundTail0[0] || tail == ''
   else
     [
       result[0]
     ]
   end
 end
-
 
 # Find property and value
 def ParseAbbreviation( input )
