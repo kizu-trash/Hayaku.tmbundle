@@ -23,7 +23,6 @@ def findFirst( array, head, tail )
     true if where.gsub(/([a-z])([A-Z])/,'\1_\2') =~ Regexp.new('^' + head.split('').join('(\w*[-_])?') + stricter, true)\
       && (tail == '' || findFirst(item['values'],tail,''))
   end
-
   # we return an array, maybe make a class instead, make all the upper stuff at init and get .prop or .value just when needed?
   # or maybe move it to a richer class as a method, so we'd not make any results, but setting attrs of this class lol
 
@@ -63,7 +62,7 @@ def ParseAbbreviation( input )
         ]
         result = {'found',findFirst(Props,split[0],split[1])}
 
-        break if result['found']
+        break if result['found'] && result['found'][0]
       end
     end
 
@@ -150,5 +149,4 @@ else
 end
 
 # testing in ruby env
-p ExpandCSSAbbreviation('w10;fvs;minw;tdl;bgren;h') if require_support == ''
-
+#p ExpandCSSAbbreviation('miw') if require_support == ''
