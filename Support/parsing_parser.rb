@@ -63,10 +63,9 @@ def ParseAbbreviation( input )
     if result['found'] && result['found'][0]
       foundUnit = Props.select{ |item| item['name'] == result['found'][0] && item['units'] }[0]
       if current[2] && foundUnit
-        dimension = case current[2]
-          when '1' # create a Dict option for it 'cause there are borders and other stuff for it
+        dimension = if current[2] == '1' && !result['found'][0].match(/border/i)
             '100%'
-          when '0' # again - create a Dict option, however it's not that bad ad prev
+          elsif current[2]== '0'
             '0'
           else
             current[2] +
