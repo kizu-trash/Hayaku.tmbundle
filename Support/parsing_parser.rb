@@ -44,8 +44,8 @@ def ParseAbbreviation( input )
     #find extras in input
     current = input.match(/([^\d\.!]*[^\d\.\-!])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/)
 
-    if current[1].include? ':' #soft find if there is a delimiter (btw move it to config)
-      split = current[1].split(':')
+    if current[1].index(/[\:\'\/]/) #soft find if there is a delimiter (btw move it to config)
+      split = current[1].split(/[\:\'\/]/)
       result = {'found',findFirst(Props,split[0],split[1])}
     else 
       current[1].split('').each_index do |index|
