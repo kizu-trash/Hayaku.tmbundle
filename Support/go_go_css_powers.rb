@@ -8,6 +8,8 @@ require require_support + 'ololo_dictionary.rb'
 require require_support + 'parsing_parser.rb'
 
 $indent = ENV['TM_CURRENT_LINE'].match(/\s+/) || ['']
+$syntax_space = ENV['TM_CSS_SPACE'] || ''
+$syntax_tab = "\t" # TM_SOFT_TABS TM_TAB_SIZE
 
 # ahaha lol method!11
 def ExpandCSSAbbreviation( inputs )
@@ -17,9 +19,10 @@ def ExpandCSSAbbreviation( inputs )
     expanded = ParseAbbreviation(input)
     
     if expanded
-      result = $indent[0] + expanded['found'][0].downcase + ': ' # space move to config
+      result = $indent[0] + expanded['found'][0].downcase + ':' + $syntax_space # space move to config
       result += expanded['found'][1].downcase if expanded['found'][1]
-      result += expanded['dimension']||'$|'
+      result += expanded['dimension']||''
+      result += '$|' if !expanded['dimension'] && expanded['found'][1] == ''
       result += ' !important' if expanded['importance']
       result += ';'
       
@@ -44,16 +47,16 @@ end
 
 result = ExpandCSSAbbreviation(ENV['TM_CURRENT_LINE'].strip)
 
-if result && result != ''
+if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/;\s*$/)
   print result
 else
   print case ENV['TM_CURRENT_LINE']
-  when /;$/
+  when /;\s*$/
     ENV['TM_CURRENT_LINE'] + "\n" + $indent[0]
   when /^$/
-    "\t"
+    $syntax_tab
   when /^\s+$/
-    ENV['TM_CURRENT_LINE'] + "\t"
+    ENV['TM_CURRENT_LINE'] + $syntax_tab
   else
     ENV['TM_CURRENT_LINE']
   end
