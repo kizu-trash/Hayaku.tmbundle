@@ -275,6 +275,10 @@ Props = [
 	},
 	{
 		'name' => 'borDer',
+		'units' =>
+		[
+			'px solid ${|:#000}',
+		]
 	},
 	{
 		'name' => 'borDer-top',
