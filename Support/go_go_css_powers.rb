@@ -9,7 +9,12 @@ require require_support + 'parsing_parser.rb'
 
 $indent = ENV['TM_CURRENT_LINE'].match(/\s+/) || ['']
 $syntax_space = ENV['TM_CSS_SPACE'] || ''
-$syntax_tab = "\t" # TM_SOFT_TABS TM_TAB_SIZE
+$syntax_tab = ''
+if ENV['TM_SOFT_TABS'] == 'YES'
+  ENV['TM_TAB_SIZE'].to_i.times { $syntax_tab<<' ' }
+else
+  $syntax_tab = "\t"
+end
 
 # ahaha lol method!11
 def ExpandCSSAbbreviation( inputs )
