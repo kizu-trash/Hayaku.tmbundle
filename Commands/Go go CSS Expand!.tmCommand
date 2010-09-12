@@ -5,17 +5,19 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>ruby "$TM_BUNDLE_SUPPORT"/go_go_css_powers.rb</string>
+	<string>ruby "$TM_BUNDLE_SUPPORT/go_go_css_powers.rb"</string>
+	<key>fallbackInput</key>
+	<string>line</string>
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
-	<string>§</string>
+	<string>	</string>
 	<key>name</key>
-	<string>Expand CSS Abbreviation</string>
+	<string>Go go CSS Expand!</string>
 	<key>output</key>
-	<string>replaceSelectedText</string>
+	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.css</string>
+	<string>meta.property-list.css -meta.property-value.css -punctuation.terminator.rule.css</string>
 	<key>uuid</key>
 	<string>6BE58A9B-2850-49DC-A182-D1EC0A059E12</string>
 </dict>
