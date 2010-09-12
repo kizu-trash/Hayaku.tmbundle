@@ -20,7 +20,7 @@ end
 def ExpandCSSAbbreviation( inputs )
   # another thing to move to config - inputs delimiter
   results = []
-  inputs.split(';').each do |input|
+  inputs.split(/[; ]/).each do |input|
     expanded = ParseAbbreviation(input)
     
     if expanded
