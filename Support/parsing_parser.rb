@@ -42,7 +42,7 @@ def ParseAbbreviation( input )
     result = nil
 
     #find extras in input
-    current = input.match(/([a-z\-]*[a-z])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/) || ['','']
+    current = input.match(/([a-z\-\:\'\/]*[a-z])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/) || ['','']
 
     if current[1].index(/[\:\'\/]/) #soft find if there is a delimiter (btw move it to config)
       split = current[1].split(/[\:\'\/]/)
