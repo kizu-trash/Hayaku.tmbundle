@@ -42,7 +42,7 @@ def ParseAbbreviation( input )
     result = nil
 
     #find extras in input
-    current = input.match(/([^\d\.!]*[^\d\.\-!])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/)
+    current = input.match(/([a-z\-]*[a-z])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/) || ['','']
 
     if current[1].index(/[\:\'\/]/) #soft find if there is a delimiter (btw move it to config)
       split = current[1].split(/[\:\'\/]/)
@@ -60,7 +60,7 @@ def ParseAbbreviation( input )
     end
 
 
-    if result['found'] && result['found'][0]
+    if result && result['found'] && result['found'][0]
       foundUnit = Props.select{ |item| item['name'] == result['found'][0] && item['units'] }[0]
       if current[2] && foundUnit
         dimension = if current[2] == '1' && !result['found'][0].match(/border/i)
