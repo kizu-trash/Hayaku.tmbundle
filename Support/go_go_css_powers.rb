@@ -8,7 +8,7 @@ require require_support + 'ololo_dictionary.rb'
 require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
 
-# check if there are prefixes for a result
+# check if there are prefixes for a result - move to parser
 def checkPrefixes(input, where)
   result = ''
   foundPrefixes = Props.select{ |item| item['name'] == where && item['prefixes'] }[0]
@@ -26,6 +26,7 @@ end
 def ExpandCSSAbbreviation( inputs )
   # another thing to move to config - inputs delimiter
   results = []
+  any_ok = false
   inputs.split(/[; ]/).each do |input|
     expanded = ParseAbbreviation(input)
     
@@ -39,6 +40,9 @@ def ExpandCSSAbbreviation( inputs )
       result = checkPrefixes(result,expanded['found'][0])
       
       results << result
+      any_ok = true
+    else
+      results << $indent + '/* ' + input + " */"
     end
   end
 
@@ -53,17 +57,24 @@ def ExpandCSSAbbreviation( inputs )
       end
     end
     
-    results.join("\n" )
+    results = results.join("\n" )
   end
+  
+  if any_ok
+    return results
+  else
+    return nil
+  end
+  
 end
 
 result = ExpandCSSAbbreviation(ENV['TM_CURRENT_LINE'].strip)
 
-if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/;\s*$/)
+if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/(;|\*\/)\s*$/)
   print result
 else
   print case ENV['TM_CURRENT_LINE']
-  when /;\s*$/
+  when /(;|\*\/)\s*$/
     ENV['TM_CURRENT_LINE'] + "\n" + $indent
   when /^\s*\}$/
     $before_closing + '}' + "\n"
