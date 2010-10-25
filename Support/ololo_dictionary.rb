@@ -35,6 +35,13 @@ Commons = {
     'pt',
     'pc'
   ],
+  'prefixes' =>
+  [
+    '-webkit-',
+    '   -moz-',
+    '     -o-',
+    '        ' # need to find a better way to do all these prefix stuff
+  ],
 }
 
 Props = [
@@ -205,6 +212,7 @@ Props = [
 	},
 	{
 		'name' => 'zoom',
+		'units' => ['']
 	},
 	{
 		'name' => 'cliP',
@@ -326,6 +334,8 @@ Props = [
 	},
 	{
 		'name' => 'borDer-radius',
+		'units' => Commons['lengths'],
+		'prefixes' => Commons['prefixes']
 	},
 	{
 		'name' => 'borDer-top-image',
@@ -493,18 +503,26 @@ Props = [
 		[
 			'content-box',
 			'border-box'
-		]
+		],
+		'prefixes' =>
+		[
+      '-webkit-',
+      '   -moz-',
+      '        ' # need to find a better way to do all these prefix stuff
+    ],
+    
 	},
 	{
 		'name' => 'boX-shadow',
-		'values' =>
-		[
-			'none',
-			'border-box'
-		]
+		'prefixes' => Commons['prefixes']
 	},
 	{
 		'name' => 'color',
+		'values' =>
+		[
+			'transparent',
+			'red'
+		]
 	},
 	{
 		'name' => 'taBle-layout',
@@ -734,10 +752,11 @@ Props = [
 		'values' =>
     [
       'none',
-		]
+		],
 	},
 	{
 		'name' => 'line-height',
+		'units' => ['']+Commons['lengths'],
 	},
 	{
 		'name' => 'white-space',
@@ -793,6 +812,7 @@ Props = [
 	},
 	{
 		'name' => 'font-siZe',
+		'units' => Commons['lengths'],
 	},
 	{
 		'name' => 'font-siZe-adjust',
@@ -893,9 +913,6 @@ Props = [
 		'name' => 'opacity',
 	},
 	{
-		'name' => 'transitions',
-	},
-	{
 		'name' => 'resiZe',
 		'values' =>
     [
@@ -942,8 +959,46 @@ Props = [
 	{
 		'name' => 'filter',
 	},
+  {
+    'name' => 'transition',
+    'values' =>
+    [
+      'all .3s ease-in-out'
+    ],
+    'prefixes' => Commons['prefixes']
+  },
+  {
+    'name' => 'transForm',
+    'values' =>
+    [
+      'scale($|)',
+      'skew($|deg)',
+      'rotate($|deg)',
+      'translate($|)'
+    ],
+    'prefixes' => Commons['prefixes']
+  }
 ]
 
-ShortCuts = {
-	'z:a' => ['z-index','auto']
+GlobalShortCuts = {
+  'z:a' => ['z-index','auto'],
+  'c' => ['color',''],
+  'zoo' => ['zoom','1'],
+  'fz' => ['font-siZe',''],
+  'bxz' => ['boX-siZing','']
 }
+
+ValueShortCuts = {
+  'red' => '#F00',
+}
+
+# make PropShortCuts — for extra ololo!
+
+def filterShortcut(dict,input)
+  if dict[input]
+    return dict[input]
+  else
+    return input
+  end
+end
+

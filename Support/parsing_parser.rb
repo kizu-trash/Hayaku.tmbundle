@@ -3,14 +3,14 @@
 # oh hai, findfirster!
 def findFirst( array, head, tail )
   array||= []
-  
+
   stricter = ''
-  stricter = '(?!\w*-)' if array[0].class != String
+  stricter = '(?!\w*-)' if !array[0].is_a? String
   
   result = array.select do |item|
     # now it can be a hash with name or just an array
     where = item
-    where = item['name'] if item.class == Hash
+    where = item['name'] if item.is_a? Hash
     
     # lulz regexp and conditional tail
     true if where.gsub(/([a-z])([A-Z])/,'\1_\2') =~ Regexp.new('^' + head.split('').join('(\w*[-_])?') + stricter, true)\
@@ -24,7 +24,7 @@ def findFirst( array, head, tail )
   if result[0].class == Hash
     [
       result[0]['name'],
-      foundTail0[0]
+      filterShortcut(ValueShortCuts,foundTail0[0])
     ] if foundTail0[0] || tail == ''
   else
     [
@@ -35,15 +35,15 @@ end
 
 # Find property and value
 def ParseAbbreviation( input )
-  # If there is a shortcut - use it
-  if ShortCuts[input]
-    ShortCuts[input]
+  result = nil
+
+  #find extras in input
+  current = input.match(/([a-z\-\:\'\/]*[a-z])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/) || ['','']
+
+
+  if GlobalShortCuts[current[1]]
+    result = {'found',GlobalShortCuts[current[1]]}
   else
-    result = nil
-
-    #find extras in input
-    current = input.match(/([a-z\-\:\'\/]*[a-z])(?:(\-?\d*\.?\d+)(\w\w|%)?)?(!)?/) || ['','']
-
     if current[1].index(/[\:\'\/]/) #soft find if there is a delimiter (btw move it to config)
       split = current[1].split(/[\:\'\/]/)
       result = {'found',findFirst(Props,split[0],split[1])}
@@ -54,39 +54,36 @@ def ParseAbbreviation( input )
           current[1][index+1,current[1].length]
         ]
         result = {'found',findFirst(Props,split[0],split[1])}
-
         break if result['found'] && result['found'][0]
       end
     end
+  end
 
-
-    if result && result['found'] && result['found'][0]
-      foundUnit = Props.select{ |item| item['name'] == result['found'][0] && item['units'] }[0]
-      if current[2] && foundUnit
-        dimension = if current[2] == '1' && !result['found'][0].match(/border/i)
-            '100%'
-          elsif current[2]== '0'
-            '0'
+  if result && result['found'] && result['found'][0]
+    foundUnit = Props.select{ |item| item['name'] == result['found'][0] && item['units'] }[0]
+    if current[2] && foundUnit
+      dimension = if current[2] == '1' && !result['found'][0].match(/border|zoom/i) && !current[3]
+          '100%'
+        elsif current[2]== '0'
+          '0'
+        else
+          current[2] +
+          if current[3]
+            current[3]
           else
-            current[2] +
-            if current[3]
-              current[3]
+            if current[2].include? '.'
+              'em'
             else
-              if current[2].include? '.'
-                'em'
-              else
-                foundUnit['units'][0]
-              end
+              foundUnit['units'][0]
             end
           end
-        result['dimension'] = dimension if dimension
-      end
-      result['importance'] = true if current[4]
-
-      result      
-    else
-      result = nil
+        end
+      result['dimension'] = dimension if dimension
     end
-    
+    result['importance'] = true if current[4]
+
+    result      
+  else
+    result = nil
   end
 end

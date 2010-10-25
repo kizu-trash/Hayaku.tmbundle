@@ -8,6 +8,20 @@ require require_support + 'ololo_dictionary.rb'
 require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
 
+# check if there are prefixes for a result
+def checkPrefixes(input, where)
+  result = ''
+  foundPrefixes = Props.select{ |item| item['name'] == where && item['prefixes'] }[0]
+  if foundPrefixes
+    foundPrefixes['prefixes'].each do |prefix|
+      result << input.gsub(/(\s*)(.+)/,'\1'+ prefix +'\2') + "\n"
+    end
+    result += $indent
+  end
+  result = input if result == ''
+  return result
+end
+
 # ahaha lol method!11
 def ExpandCSSAbbreviation( inputs )
   # another thing to move to config - inputs delimiter
@@ -16,12 +30,13 @@ def ExpandCSSAbbreviation( inputs )
     expanded = ParseAbbreviation(input)
     
     if expanded
-      result = $indent + expanded['found'][0].downcase + ':' + $syntax_space # space move to config
+      result = $indent + expanded['found'][0].downcase + ':' + $syntax_space
       result += expanded['found'][1].downcase if expanded['found'][1]
       result += expanded['dimension']||''
       result += '$|' if !expanded['dimension'] && expanded['found'][1] == ''
       result += ' !important' if expanded['importance']
       result += ';'
+      result = checkPrefixes(result,expanded['found'][0])
       
       results << result
     end
