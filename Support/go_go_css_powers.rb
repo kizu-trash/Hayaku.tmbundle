@@ -9,6 +9,7 @@ require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
 
 # check if there are prefixes for a result - move to parser
+# TODO: last \n and indent must be obly if it's the last thing in abbreviation, so need to move it to outside someday
 def checkPrefixes(input, where)
   result = ''
   foundPrefixes = Props.select{ |item| item['name'] == where && item['prefixes'] }[0]
