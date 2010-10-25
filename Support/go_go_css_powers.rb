@@ -80,7 +80,7 @@ else
   when /^\s*\}$/
     $before_closing + '}' + "\n"
   when /^\s*$/
-    $syntax_tab
+    ENV['TM_CURRENT_LINE'] + $syntax_tab
   else
     ENV['TM_CURRENT_LINE']
   end

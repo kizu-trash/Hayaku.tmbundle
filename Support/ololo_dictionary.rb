@@ -985,7 +985,8 @@ GlobalShortCuts = {
   'c' => ['color',''],
   'zoo' => ['zoom','1'],
   'fz' => ['font-siZe',''],
-  'bxz' => ['boX-siZing','']
+  'bxz' => ['boX-siZing',''],
+  'bo' => ['border','']
 }
 
 ValueShortCuts = {
