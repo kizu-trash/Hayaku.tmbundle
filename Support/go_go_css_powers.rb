@@ -77,10 +77,14 @@ else
   print case ENV['TM_CURRENT_LINE']
   when /(;|\*\/)\s*$/
     ENV['TM_CURRENT_LINE'] + "\n" + $indent
+  when /^.*\{\s*$/
+    ENV['TM_CURRENT_LINE'] + "\n" + $indent
+  when /^.*\{\s*\}\s*$/
+    ENV['TM_CURRENT_LINE'].gsub(/\}\s*$/,'') + "\n" + $indent + "$0\n" + $before_closing + '}'
   when /^\s*\}$/
     $before_closing + '}' + "\n"
   when /^\s*$/
-    ENV['TM_CURRENT_LINE'] + $syntax_tab
+    ENV['TM_CURRENT_LINE'] + "\n" + $indent
   else
     ENV['TM_CURRENT_LINE']
   end

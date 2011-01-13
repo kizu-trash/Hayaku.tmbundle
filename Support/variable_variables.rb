@@ -7,7 +7,7 @@ if ENV['TM_SOFT_TABS'] == 'YES'
 else
   $syntax_tab = "\t"
 end
-$extra_indent = (ENV['TM_CURRENT_LINE'].match(/\s+/) || [''])[0].sub($syntax_tab,'')
+$extra_indent = (ENV['TM_CURRENT_LINE'].match(/^\s+/) || [''])[0].sub($syntax_tab,'')
 
 $indent = $extra_indent + $syntax_tab
 $before_closing = $extra_indent + (ENV['TM_CSS_BEFORE_CLOSING'] || '');
