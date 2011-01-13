@@ -42,6 +42,14 @@ Commons = {
     '     -o-',
     '        ' # need to find a better way to do all these prefix stuff
   ],
+  'colors' =>
+  [
+		'transparent',
+		'red',
+		'black',
+		'white',
+	]
+	
 }
 
 Props = [
@@ -514,15 +522,11 @@ Props = [
 	},
 	{
 		'name' => 'boX-shadow',
-		'prefixes' => Commons['prefixes']
+		'prefixes' => Commons['prefixes'],
 	},
 	{
 		'name' => 'color',
-		'values' =>
-		[
-			'transparent',
-			'red'
-		]
+		'values' => Commons['colors'],
 	},
 	{
 		'name' => 'taBle-layout',
@@ -991,6 +995,8 @@ GlobalShortCuts = {
 
 ValueShortCuts = {
   'red' => '#F00',
+  'black' => '#000',
+  'white' => '#FFF',
 }
 
 # make PropShortCuts — for extra ololo!
