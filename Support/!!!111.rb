@@ -1,6 +1,7 @@
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
+
 if ENV['TM_SELECTED_TEXT']
-  # do nothing
-  print "${0:"+ ENV['TM_SELECTED_TEXT'] +"}"
+  TextMate.exit_discard
 else
   # get left and right part from caret position
   left = ''

@@ -5,12 +5,13 @@ require_support = ''
 require_support = ENV['TM_BUNDLE_SUPPORT'] + '/' unless ENV['TM_BUNDLE_SUPPORT'].include? 'Ruby.tmbundle'
 
 require require_support + 'ololo_dictionary.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
 
 if ENV['TM_SELECTED_TEXT']
   if ENV['TM_SELECTED_TEXT'].index(/^[\d\-\.]+$/)
     print "${0:"+ (ENV['TM_SELECTED_TEXT'].to_f + Modifier).to_s.gsub(/\.0$/,'') +"}"
   else
-    print "${0:"+ ENV['TM_SELECTED_TEXT'] +"}"
+    TextMate.exit_discard
   end
 else
   # get left and right part from caret position
@@ -27,7 +28,6 @@ else
       }
     }
   else
-    # keep caret position and add extra lulz
-    print left + '${1}' + right + '${0}'
+    TextMate.exit_discard
   end
 end
