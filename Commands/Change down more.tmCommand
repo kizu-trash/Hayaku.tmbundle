@@ -19,8 +19,6 @@ require ENV['TM_BUNDLE_SUPPORT'] + "/arrows_everywhere.rb"
 	<string>Change down more</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
-	<key>scope</key>
-	<string>meta.property-list.css</string>
 	<key>uuid</key>
 	<string>875D9AAC-3BC9-4304-AB0F-2532AEFA0251</string>
 </dict>
