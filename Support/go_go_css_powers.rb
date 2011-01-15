@@ -74,19 +74,18 @@ result = ExpandCSSAbbreviation(ENV['TM_CURRENT_LINE'].strip)
 if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/(;|\*\/)\s*$/)
   print result
 else
-  print case ENV['TM_CURRENT_LINE']
-  when /(;|\*\/)\s*$/
-    ENV['TM_CURRENT_LINE'] + "\n" + $indent
-  when /^.*\{\s*$/
-    ENV['TM_CURRENT_LINE'] + "\n" + $indent
-  when /^.*\{\s*\}\s*$/
+  # get left and right part from caret position
+  left = ''
+  left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
+  right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
+
+  print case (left + "‸" + right)
+  when /^.*\{\s*‸\}\s*$/
     ENV['TM_CURRENT_LINE'].gsub(/\}\s*$/,'') + "\n" + $indent + "$0\n" + $before_closing + '}'
-  when /^\s*\}$/
-    $before_closing + '}' + "\n"
-  when /^\s*$/
-    ENV['TM_CURRENT_LINE'] + "\n" + $indent
+  when /^\s*‸|‸\s*$/
+    (left + "‸" + right).gsub(/‸(#{$indent})?/, "\n" + $indent + '$0')
   else
-    ENV['TM_CURRENT_LINE']
+    ENV['TM_CURRENT_LINE'] + "\n" + $indent
   end
 end
 
