@@ -21,8 +21,8 @@ else
 
   if ENV['TM_CURRENT_WORD'].index(/\d/)
     # mark caret position for digit find
-    result = left + "§" + right + '${0}'
-    print result.gsub(/([\w\-\.]*)§([\w\-\.]*)/){
+    result = left + "‸" + right + '${0}'
+    print result.gsub(/([\w\-\.]*)‸([\w\-\.]*)/){
       ($1 + $2).gsub(/([\d\-\.]+)/){
         ($1.to_f + Modifier).to_s.gsub(/\.0$/,'') + '${1}'
       }
