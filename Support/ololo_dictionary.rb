@@ -967,7 +967,7 @@ Props = [
     'name' => 'transition',
     'values' =>
     [
-      'all .3s ease-in-out'
+      'all .3s ease'
     ],
     'prefixes' => Commons['prefixes']
   },
@@ -989,6 +989,7 @@ GlobalShortCuts = {
   'c' => ['color',''],
   'zoo' => ['zoom','1'],
   'fz' => ['font-siZe',''],
+  'f' => ['font',''],
   'bxz' => ['boX-siZing',''],
   'bo' => ['border','']
 }
