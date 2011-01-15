@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+require ENV['TM_BUNDLE_SUPPORT'] + "/_HayakuLib.rb"
+ReplaceCarets()
+</string>
+	<key>fallbackInput</key>
+	<string>document</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>name</key>
+	<string>Replace Caret Placeholders</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>uuid</key>
+	<string>C6EEC1F7-E9FE-4F15-8062-69676665D95C</string>
+</dict>
+</plist>
