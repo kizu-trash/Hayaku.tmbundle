@@ -21,11 +21,9 @@ end
 
 def ReplaceCarets()
   result = STDIN.read
-  if result.index(/⦉[^⦊]*⦊/)
-    result.gsub!(/⟨([^⦊]*)⟩/,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/g}') if result.index(/⟨[^⦊]*⟩/)
-    result.gsub!(/⦉([^⦊]*)⦊/,'${1:⟨\1⟩}$0${1/^.+$//g}')
-  else
-    # There need to be a single-quote check
-  end
+  result.sub!(/⟨([^⦊]*)⟩/,'⦉\1⦊') if !result.index(/⦉[^⦊]*⦊/)
+  result.gsub!(/⟨([^⦊]*)⟩/,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/g}') if result.index(/⟨[^⦊]*⟩/)
+  result.gsub!(/⦉([^⦊]*)⦊/,'${1:⟨\1⟩}$0${1/^.+$//g}') if result.index(/⦉[^⦊]*⦊/)
+
   print result
 end
