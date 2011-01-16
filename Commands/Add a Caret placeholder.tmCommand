@@ -6,7 +6,7 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
-require ENV['TM_BUNDLE_SUPPORT'] + "/for_a_caret.rb"
+require ENV['TM_BUNDLE_SUPPORT'] + "/_HayakuLib.rb"
 </string>
 	<key>fallbackInput</key>
 	<string>none</string>
