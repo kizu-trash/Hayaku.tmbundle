@@ -7,13 +7,12 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 require ENV['TM_BUNDLE_SUPPORT'] + "/_HayakuLib.rb"
+SetCaret()
 </string>
 	<key>fallbackInput</key>
 	<string>none</string>
 	<key>input</key>
 	<string>selection</string>
-	<key>keyEquivalent</key>
-	<string>§</string>
 	<key>name</key>
 	<string>Add a Caret placeholders</string>
 	<key>output</key>
