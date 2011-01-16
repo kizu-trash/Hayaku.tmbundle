@@ -9,7 +9,15 @@ def SetCaret()
     # need to toggle current caret and replace it with initial tabstop (or it can't be so? Or do not enter replace mode after toggling?)
     if ENV['TM_COLUMNS'].to_i < 78
       # Column mode (multiple caret pairs) (need to place only one "current" pair, all other must be "old" )
-      print ENV['TM_SELECTED_TEXT'].gsub(/^(.*)$/,'⦉\1⦊')
+      needActual = true
+      print ENV['TM_SELECTED_TEXT'].gsub(/^(.*)$/){
+        if needActual
+          needActual = false
+          '⦉' + $1 + '⦊'
+        else
+          '⟨' + $1 + '⟩'
+        end
+      }
     else
       # Normal mode (one pair of carets)
       print "⦉" + ENV['TM_SELECTED_TEXT'] + "⦊"
@@ -21,9 +29,9 @@ end
 
 def ReplaceCarets()
   result = STDIN.read
-  result.sub!(/⟨([^⦊]*)⟩/,'⦉\1⦊') if !result.index(/⦉[^⦊]*⦊/)
-  result.gsub!(/⟨([^⦊]*)⟩/,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/g}') if result.index(/⟨[^⦊]*⟩/)
-  result.gsub!(/⦉([^⦊]*)⦊/,'${1:⟨\1⟩}$0${1/^.+$//g}') if result.index(/⦉[^⦊]*⦊/)
+  result.sub!(/⟨([^⟩]*)⟩/m,'⦉\1⦊') if !result.index(/⦉[^⦊]*⦊/)
+  result.gsub!(/⟨([^⟩]*)⟩/m,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/gm}') if result.index(/⟨[^⟩]*⟩/)
+  result.gsub!(/⦉([^⦊]*)⦊/m,'${1:⟨\1⟩}$0${1/^.+$//gm}') if result.index(/⦉[^⦊]*⦊/)
 
   print result
 end
