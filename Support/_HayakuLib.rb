@@ -1,5 +1,6 @@
 #*_*#
 require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 
 # Partially inspired by Duane Johnson's Multiple Arbitrary Simultaneous Carets http://inquirylabs.com/blog2009/my-textmate-bundle/
 # But with a lot of improvements, ideas, quirks and things. And made from scratch, yeah.
@@ -28,7 +29,7 @@ def SetCaret()
 end
 
 def ReplaceCarets()
-  result = STDIN.read
+  result = e_sn(STDIN.read)
   result.sub!(/⟨([^⟩]*)⟩/m,'⦉\1⦊') if !result.index(/⦉[^⦊]*⦊/)
   result.gsub!(/⟨([^⟩]*)⟩/m,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/gm}') if result.index(/⟨[^⟩]*⟩/)
   result.gsub!(/⦉([^⦊]*)⦊/m,'${1:⟨\1⟩}$0${1/^.+$//gm}') if result.index(/⦉[^⦊]*⦊/)
