@@ -79,6 +79,9 @@ def ParseAbbreviation( input )
           end
         end
       result['dimension'] = dimension if dimension
+    elsif Props.select{ |item| item['name'] == result['found'][0] && item['units'].include?('px') && item['units'].include?('em') }[0]
+      # Autounits for value
+      result['dimension'] = '${|}${|/((?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
     end
     result['importance'] = true if current[4]
 
