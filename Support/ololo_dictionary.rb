@@ -42,6 +42,12 @@ Commons = {
     '     -o-',
     '        ' # need to find a better way to do all these prefix stuff
   ],
+  'prefixes-bra' =>
+  [
+    '-webkit-',
+    '   -moz-',
+    '        ' # need to find a better way to do all these prefix stuff
+  ],
   'colors' =>
   [
 		'transparent',
@@ -343,7 +349,7 @@ Props = [
 	{
 		'name' => 'borDer-radius',
 		'units' => Commons['lengths'],
-		'prefixes' => Commons['prefixes']
+		'prefixes' => Commons['prefixes-bra']
 	},
 	{
 		'name' => 'borDer-top-image',
