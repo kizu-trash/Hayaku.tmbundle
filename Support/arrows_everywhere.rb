@@ -21,12 +21,17 @@ else
 
   if ENV['TM_CURRENT_WORD'].index(/\d/)
     # mark caret position for digit find
-    result = left + "‸" + right + '${0}'
-    print result.gsub(/([\w\-\.]*)‸([\w\-\.]*)/){
+    result = left + "‸" + right
+    result.gsub!(/([\w\-\.]*)‸([\w\-\.]*)/){
       ($1 + $2).gsub(/([\d\-\.]+)/){
-        ($1.to_f + Modifier).to_s.gsub(/\.0$/,'') + '${1}'
+        ($1.to_f + Modifier).to_s.gsub(/\.0$/,'')
       }
     }
+    # place caret after replace
+    result.insert(ENV['TM_LINE_INDEX'].to_i + result.length - ENV['TM_CURRENT_LINE'].length, '${0}')
+
+    print result
+    
   else
     TextMate.exit_discard
   end
