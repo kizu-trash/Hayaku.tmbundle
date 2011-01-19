@@ -4,6 +4,7 @@
 require_support = ''
 require_support = ENV['TM_BUNDLE_SUPPORT'] + '/' unless ENV['TM_BUNDLE_SUPPORT'].include? 'Ruby.tmbundle'
 
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
 require require_support + 'ololo_dictionary.rb'
 require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
@@ -74,20 +75,23 @@ result = ExpandCSSAbbreviation(ENV['TM_CURRENT_LINE'].strip)
 if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/(;|\*\/)\s*$/)
   print result
 else
+  TextMate.exit_discard if ENV['TM_SELECTED_TEXT']
+
   # get left and right part from caret position
   left = ''
   left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
   right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
 
   print case (left + "‸" + right)
-  when /^.*\{\s*‸\}\s*$/
-    ENV['TM_CURRENT_LINE'].gsub(/\}\s*$/,'') + "\n" + $indent + "$0\n" + $before_closing + '}'
-  when /^\s*‸|‸\s*$/
-    (left + "‸" + right).gsub(/‸(#{$indent})?/, "\n" + $indent + '$0')
+  when /^\s*‸\s\w+/
+    ENV['TM_CURRENT_LINE'].gsub(/^(\s*)/){
+      $indent+'$0'
+    }
+  when /^\s*‸\w+/
+    ENV['TM_CURRENT_LINE'].gsub(/^(\s*)/){
+      $indent+$syntax_tab+'$0'
+    }
   else
-    ENV['TM_CURRENT_LINE'] + "\n" + $indent
+    ENV['TM_CURRENT_LINE'].gsub(/(.)[ \t]*$/,'\1') + "\n" + $indent
   end
 end
-
-# testing in ruby env
-#p ExpandCSSAbbreviation('miw') if require_support == ''
