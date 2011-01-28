@@ -17,7 +17,13 @@ else
         ($1 + $2).gsub(/ ?!important/,'${1}')
       end
     else
-      ($1 + "‸" + $2).sub('‸','${1}').sub(/\s*;?(\s*)$/,' !important;\1')
+      ($1 + "‸" + $2).sub(/(\s+‸)?\s*;?(\s*)$/){
+        if $1
+          ' ‸!important;' + $2
+        else
+          ' !important;' + $2
+        end
+      }.sub(/‸/,'${1}')
     end
   }
 end
