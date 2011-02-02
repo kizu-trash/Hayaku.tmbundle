@@ -6,6 +6,7 @@ require_support = ENV['TM_BUNDLE_SUPPORT'] + '/' unless ENV['TM_BUNDLE_SUPPORT']
 
 require require_support + 'ololo_dictionary.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 
 if ENV['TM_SELECTED_TEXT']
   if ENV['TM_SELECTED_TEXT'].index(/^[\d\-\.]+$/)
@@ -28,9 +29,11 @@ else
       }
     }
     # place caret after replace
-    result.insert(ENV['TM_LINE_INDEX'].to_i + result.length - ENV['TM_CURRENT_LINE'].length, '${0}')
+    jumpIndex = ENV['TM_LINE_INDEX'].to_i + result.length - ENV['TM_CURRENT_LINE'].length
+    jumpIndex = 0 if jumpIndex < 0
+    result.insert(jumpIndex, '⦉${0}⦊')
 
-    print result
+    print e_sn(result).gsub('⦉\${0}⦊','${0}')
     
   else
     TextMate.exit_discard
