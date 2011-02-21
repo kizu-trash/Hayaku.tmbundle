@@ -84,7 +84,7 @@ def ParseAbbreviation( input )
       result['dimension'] = '${|}${|/((?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
     elsif result['found'][0] && (result['found'][0].index(/-?color$/) or result['found'][0].downcase == 'background')
       # Again, hardcoded autounits for colors
-      result['dimension'] = '${|/^(?=([0-9a-fA-F]{1,6}$)?)(?=(?:(\d+)(,)$)?).+$/(?1:#)(?3:rgba\()/}${|}${|/^(?=(?:(\d+)(,)$)?)(#?([0-9a-fA-F]{1,2})$)?.*/(?2:$1,$1,1\))(?3:(?4:$4$4))/}'
+      result['dimension'] = '${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:rgba\()/}${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/}${|}${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:(?3::$2,$2,1)\))/}'
     end
     result['importance'] = true if current[4]
 
