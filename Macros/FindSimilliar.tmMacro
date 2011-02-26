@@ -36,7 +36,7 @@ SetCaret()
 				<key>findInProjectIgnoreCase</key>
 				<false/>
 				<key>findString</key>
-				<string>(\w*)⦉⦊(\w*)|[⟨⟩]</string>
+				<string>(\w*)⦉⦊(\w*)</string>
 				<key>ignoreCase</key>
 				<true/>
 				<key>regularExpression</key>

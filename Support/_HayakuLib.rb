@@ -6,13 +6,25 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 # But with a lot of improvements, ideas, quirks and things. And made from scratch, yeah.
 
 def FindSimilliar()
-  result = e_sn(STDIN.read)
+  @result = e_sn(STDIN.read)
   
-  @original = result.match(/⦉([^⦊]*)⦊/)[0].gsub(/[⦉⦊]/,'')
-  
-  result.gsub!(/(#{Regexp.escape(@original)})(?!⦊)/,'⟨\1⟩')
-  
-  ReplaceCarets(result)
+  # Find what to replace
+  @original = @result.match(/⦉([^⦊]*)⦊/)[0].gsub(/[⦉⦊]/,'')
+
+  if @original and @original.length
+    if @result.include?('⟨') and @result.include?('⟩')
+      # If there is a carets, they are limit search in their borders
+      @result.gsub!(/⦊|⦉/,'')
+      @result.gsub!(/⟨(.*?)⟩/m){
+        $1.gsub(/(#{Regexp.escape(@original)})(?!⦊)/,'⟨\1⟩')
+      }
+    else
+      @result.gsub!(/(#{Regexp.escape(@original)})(?!⦊)/,'⟨\1⟩')
+    end
+    ReplaceCarets(@result)
+  else
+    TextMate.exit_discard
+  end
 end
 
 def SetCaret()
