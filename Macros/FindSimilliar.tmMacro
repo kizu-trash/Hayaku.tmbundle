@@ -18,8 +18,6 @@ SetCaret()
 				<string>none</string>
 				<key>input</key>
 				<string>selection</string>
-				<key>keyEquivalent</key>
-				<string>§</string>
 				<key>name</key>
 				<string>Add a Caret placeholders</string>
 				<key>output</key>
@@ -29,6 +27,29 @@ SetCaret()
 			</dict>
 			<key>command</key>
 			<string>executeCommandWithOptions:</string>
+		</dict>
+		<dict>
+			<key>argument</key>
+			<dict>
+				<key>action</key>
+				<string>replaceAll</string>
+				<key>findInProjectIgnoreCase</key>
+				<false/>
+				<key>findString</key>
+				<string>(\w*)⦉⦊(\w*)|[⟨⟩]</string>
+				<key>ignoreCase</key>
+				<true/>
+				<key>regularExpression</key>
+				<true/>
+				<key>replaceAllScope</key>
+				<string>document</string>
+				<key>replaceString</key>
+				<string>(?1:⦉$1$2⦊:(?2:⦉$1$2⦊))</string>
+				<key>wrapAround</key>
+				<true/>
+			</dict>
+			<key>command</key>
+			<string>findWithOptions:</string>
 		</dict>
 		<dict>
 			<key>command</key>
@@ -42,30 +63,28 @@ SetCaret()
 				<key>command</key>
 				<string>#!/usr/bin/env ruby
 require ENV['TM_BUNDLE_SUPPORT'] + "/_HayakuLib.rb"
-ReplaceCarets(false)
+FindSimilliar()
 </string>
 				<key>fallbackInput</key>
 				<string>document</string>
 				<key>input</key>
 				<string>selection</string>
-				<key>keyEquivalent</key>
-				<string>§</string>
 				<key>name</key>
-				<string>Add a Caret placeholders</string>
+				<string>Replace Caret Placeholders</string>
 				<key>output</key>
 				<string>insertAsSnippet</string>
 				<key>uuid</key>
-				<string>51085794-99FE-45A4-A6A9-8D081B5932F6</string>
+				<string>C6EEC1F7-E9FE-4F15-8062-69676665D95C</string>
 			</dict>
 			<key>command</key>
 			<string>executeCommandWithOptions:</string>
 		</dict>
 	</array>
 	<key>keyEquivalent</key>
-	<string>§</string>
+	<string>@§</string>
 	<key>name</key>
-	<string>Super Caret!</string>
+	<string>FindSimilliar</string>
 	<key>uuid</key>
-	<string>D71355E5-1321-4ECA-91A8-7612A51826B7</string>
+	<string>D023FE5F-1294-4122-BACE-D5837CEC36A3</string>
 </dict>
 </plist>
