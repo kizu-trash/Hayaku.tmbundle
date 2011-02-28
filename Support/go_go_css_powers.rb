@@ -35,32 +35,14 @@ end
 def ExpandCSSAbbreviation( inputs )
   @results = []
   
-  # Split input by properties delimiter (TODO: must understand newline for SASS etc.)
-  inputs.split(/([^:;]*\s+)?(\w+(?:\:[^;]*)?);?/).each do |input|
+  # Split input by properties delimiter
+  inputs.split(/;|(\w+:\s*[^;]*)|(\/\*[^\/]*\*\/)|([^\s;{}]+)/).each do |input|
     @result = ''
-    
-    if input.strip.length
-      # Find if there is delimiter for value
-      @startSpace = input.match(/^\s*/)[0]
-      @dirtySplit = input.strip.split(/:\s*/)
-    
-      @property = ''
-      # if there is already fine name do nothing
-      if Props.select{ |item| item['name'] == @dirtySplit[0]}[0]
-        @result = input + '; /* doing nothing */'
-      else
-        @result += @startSpace + @dirtySplit[0] if @dirtySplit[0]
-        @result += ':' + $syntax_space + @dirtySplit[1] if @dirtySplit[1]
-        @result += ';'
 
-        # Too much of :, need smth to do with it
-        WTF('Too much ::::') if @dirtySplit.length > 2 
-      end
-    end    
-    if @result and @result != ''
-      @results << @result
+    if input.match(/./) and !input.match(/[{}]|^\s+$|^\s*\/\*[^\/]+\*\/$/)
+      @results << '(' + input + ')'
     else
-      @results << 'ahaha'
+      @results << input
     end
   end
   return @results.join
