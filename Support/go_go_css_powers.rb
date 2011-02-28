@@ -44,7 +44,7 @@ def ExpandCSSAbbreviation( inputs )
       results << result
       any_ok = true
     else
-      results << $indent + '/* ' + input + " */"
+      results <<  input
     end
   end
 
@@ -76,22 +76,5 @@ if result && result != '' && !ENV['TM_CURRENT_LINE'].match(/(;|\*\/)\s*$/)
   print result
 else
   TextMate.exit_discard if ENV['TM_SELECTED_TEXT']
-
-  # get left and right part from caret position
-  left = ''
-  left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
-  right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
-
-  print case (left + "‸" + right)
-  when /^\s*‸\s\w+/
-    ENV['TM_CURRENT_LINE'].gsub(/^(\s*)/){
-      $indent+'$0'
-    }
-  when /^\s*‸\w+/
-    ENV['TM_CURRENT_LINE'].gsub(/^(\s*)/){
-      $indent+$syntax_tab+'$0'
-    }
-  else
-    ENV['TM_CURRENT_LINE'].gsub(/(.)[ \t]*$/,'\1') + "\n" + $indent
-  end
+  TextMate.exit_insert_text ' '
 end
