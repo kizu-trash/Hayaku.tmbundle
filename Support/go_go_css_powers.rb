@@ -11,7 +11,6 @@ require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
 
 @input = e_sn(STDIN.read)
-
 def WTF(wut)
   TextMate.exit_show_tool_tip 'WTF: ' + wut
 end
@@ -39,41 +38,30 @@ def ExpandCSSAbbreviation( inputs )
   inputs.split(/;|(\w+:\s*[^;]*)|(\/\*[^\/]*\*\/)|([^\s;{}]+)/).each do |input|
     @result = ''
 
-    if input.match(/./) and !input.match(/[{}]|^\s+$|^\s*\/\*[^\/]+\*\/$/)
-      @results << '(' + input + ')'
-    else
+    if !input.match(/./) or input.match(/[{}]|^\s+$|^\s*\/\*[^\/]*\*\/$/)
       @results << input
-    end
-  end
-  return @results.join
-end
-
-def ExpandCSSAbbreviationOld( inputs )
-  # another thing to move to config - inputs delimiter
-  results = []
-  any_ok = false
-  inputs.split(/[; ]/).each do |input|
-    expanded = ParseAbbreviation(input)
-    
-    if expanded
-      result = $indent + expanded['found'][0].downcase + ':' + $syntax_space
-      result += expanded['found'][1].downcase if expanded['found'][1]
-      result += expanded['dimension']||''
-      result += '$|' if !expanded['dimension'] && expanded['found'][1] == ''
-      result += ' !important' if expanded['importance']
-      result += ';'
-      result = checkPrefixes(result,expanded['found'][0])
-      
-      results << result
-      any_ok = true
     else
-      results <<  input
+      @expanded = ParseAbbreviation(input)
+      
+      if @expanded
+        @result += @expanded['found'][0].downcase + ':' + $syntax_space if @expanded['found'][0]
+        @result += @expanded['found'][1].downcase if @expanded['found'][1]
+        @result += @expanded['dimension']||''
+        @result += '$|' if !@expanded['dimension'] && @expanded['found'][1] == ''
+        @result += ' !important' if @expanded['importance']
+        @result += ';'
+        @result = checkPrefixes(@result,@expanded['found'][0])
+
+        @results << @result
+      else
+        @results << input
+      end
     end
   end
 
-  if results
+  if @results
     i = 0;
-    results.collect! do |result|
+    @results.collect! do |result|
       if result.include? '|'
          i+=1;
          result.gsub('|',"#{i}")
@@ -81,16 +69,9 @@ def ExpandCSSAbbreviationOld( inputs )
          result
       end
     end
-    
-    results = results.join("\n" )
   end
-  
-  if any_ok
-    return results
-  else
-    return nil
-  end
-  
+
+  return @results.join()
 end
 
 result = ExpandCSSAbbreviation(@input)
