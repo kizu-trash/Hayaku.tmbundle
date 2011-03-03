@@ -5,7 +5,10 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>ruby "$TM_BUNDLE_SUPPORT/go_go_css_powers.rb"</string>
+	<string>#!/usr/bin/env ruby
+require ENV['TM_BUNDLE_SUPPORT'] + "/go_go_css_powers.rb"
+GoGoCSSPower()
+</string>
 	<key>fallbackInput</key>
 	<string>line</string>
 	<key>input</key>
