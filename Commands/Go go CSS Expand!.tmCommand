@@ -10,17 +10,15 @@ require ENV['TM_BUNDLE_SUPPORT'] + "/go_go_css_powers.rb"
 GoGoCSSPower()
 </string>
 	<key>fallbackInput</key>
-	<string>line</string>
+	<string>scope</string>
 	<key>input</key>
 	<string>selection</string>
-	<key>keyEquivalent</key>
-	<string> </string>
 	<key>name</key>
 	<string>Go go CSS Expand!</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>meta.property-list.css -meta.property-value.css -punctuation.terminator.rule.css</string>
+	<string>meta.property-list.css</string>
 	<key>uuid</key>
 	<string>6BE58A9B-2850-49DC-A182-D1EC0A059E12</string>
 </dict>
