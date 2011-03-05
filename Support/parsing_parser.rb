@@ -81,7 +81,10 @@ def ParseAbbreviation( input )
       result['dimension'] = dimension if dimension
     elsif Props.select{ |item| item['name'] == result['found'][0] && item['units'] && item['units'].include?('px') && item['units'].include?('em') }[0]
       # Autounits for value
-      result['dimension'] = '${|}${|/((?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
+      result['dimension'] = '${|}${|/((?!^0$)(?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
+      
+      # Autocomplete (must be generated from Hash)
+      result['dimension'] += '${|/^(a$)?(au$)?(aut$)?.*/(?1:uto)(?2:to)(?3:o)/}'
     elsif result['found'][0] && (result['found'][0].index(/-?color$/) or result['found'][0].downcase == 'background')
       # Again, hardcoded autounits for colors
       result['dimension'] = '${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:rgba\()/}${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/}${|}${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:(?3::$2,$2,1)\))/}'
