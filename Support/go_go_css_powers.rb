@@ -23,7 +23,12 @@ def CheckNeedInExpand()
     print '‸'
     exit 203
   else
-    print ' '
+    # if there is nothing on the right from the caret then create newline with indentation
+    if right.match(/^\s*[;}]?$/) and !(left+right).match(/^\s*$/)
+      print "\n" + $indent
+    else
+      print $syntax_tab
+    end
   end
 end
 
@@ -92,6 +97,10 @@ def GoGoCSSPower()
  result = ExpandCSSAbbreviation(@input)
  
  if result && result != ''
+   # If there is no ending tabstop then add it after the last semicolon
+   if !result.include? '$0'
+     result.gsub!(/;(?!.*;.*)/m,';$0')
+   end
    print result
  else
    TextMate.exit_discard

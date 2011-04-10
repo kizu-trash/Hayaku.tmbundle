@@ -82,7 +82,7 @@ GoGoCSSPower()
 		</dict>
 	</array>
 	<key>keyEquivalent</key>
-	<string> </string>
+	<string>	</string>
 	<key>name</key>
 	<string>Expand CSS Abbreviation</string>
 	<key>scope</key>
