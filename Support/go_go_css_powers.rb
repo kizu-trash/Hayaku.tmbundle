@@ -19,7 +19,7 @@ def CheckNeedInExpand()
   left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
   right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
 
-  if ENV['TM_SELECTED_TEXT'] == ' ' and right.match(/^\s*[;}]?$/) and !left.match(/\:[^\:]{3,}$/) and !(left+right).match(/^\s*$/)
+  if ENV['TM_SELECTED_TEXT'] == ' ' and right.match(/^\s*[;}]?$/) and !(left+right).match(/^\s*$/) and !left.match(/;\s+$/)
     print '‸'
     exit 203
   else
