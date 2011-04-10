@@ -73,7 +73,12 @@ def ExpandCSSAbbreviation( inputs )
   
         @results << @result
       else
-        @results << input + ';'
+        @results << input
+        if input.include?(':')
+          @results << ';' 
+        else
+          @results << '$0' 
+        end
       end
     end
   end
