@@ -50,7 +50,6 @@ end
 # ahaha lol method!11
 def ExpandCSSAbbreviation( inputs )
   @results = []
-  
   TextMate.exit_insert_text '' if ENV['TM_SELECTED_TEXT']
   
   # Split input by properties delimiter
@@ -99,16 +98,21 @@ def ExpandCSSAbbreviation( inputs )
 end
 
 def GoGoCSSPower()
- result = ExpandCSSAbbreviation(@input)
- 
- if result && result != ''
-   # If there is no ending tabstop then add it after the last semicolon
-   if !result.include? '$0'
-     result.gsub!(/;(?!.*;.*)/m,';$0')
-   end
-   print result
- else
-   TextMate.exit_discard
- end
+  initInput = @input
+  result = ''
+  result = @input.split('{')[0] + '{' if initInput.include?('{')
+  @input = @input.gsub(/[^\{]*\{/,'')
+  result += ExpandCSSAbbreviation(@input)
+  
+  
+  if result && result != ''
+    # If there is no ending tabstop then add it after the last semicolon
+    if !result.include? '$0'
+      result.gsub!(/;(?!.*;.*)/m,';$0')
+    end
+    print result
+  else
+    TextMate.exit_discard
+  end
 end
 
