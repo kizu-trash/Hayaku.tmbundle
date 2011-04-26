@@ -21,7 +21,8 @@ Commons = {
     'groove',
     'ridge',
     'inset',
-    'outset'
+    'outset',
+    'wave'
   ],
   'lengths' =>
   [
@@ -180,13 +181,13 @@ Props = [
       'comPact',
       'taBle',
       'inline-taBle',
+      'taBle-row',
+      'taBle-cell',
       'taBle-row-group',
       'taBle-header-group',
       'taBle-footer-group',
-      'taBle-row',
-      'taBle-cell',
-      'taBle-coLumn-group',
       'taBle-coLumn',
+      'taBle-coLumn-group',
       'taBle-caPtion',
       'none',
     ]
@@ -325,16 +326,35 @@ Props = [
     'name' => 'borDer-width',
   },
   {
-    'name' => 'borDer-break',
+    'name' => 'borDer-breaK',
+    'values' =>
+    [
+      'close'
+    ]
   },
   {
-    'name' => 'borDer-collapse',
+    'name' => 'borDer-colLapse',
+    'values' =>
+    [
+      'collapse',
+      'separate'
+    ]
   },
   {
     'name' => 'borDer-image',
   },
   {
     'name' => 'borDer-fit',
+    'values' =>
+    [
+      'clip',
+      'repeat',
+      'scale',
+      'stretch',
+      'overWrite',
+      'overFlow',
+      'space'
+    ]
   },
   {
     'name' => 'borDer-lengTh',
@@ -481,7 +501,7 @@ Props = [
     'name' => 'backGround-position-y',
   },
   {
-    'name' => 'backGround-break',
+    'name' => 'backGround-breaK',
     'values' =>
     [
       'bounding-box',
@@ -490,7 +510,7 @@ Props = [
     ]
   },
   {
-    'name' => 'backGround-clip',
+    'name' => 'backGround-cliP',
     'values' =>
     [
       'border-box',
@@ -501,6 +521,12 @@ Props = [
   },
   {
     'name' => 'backGround-origin',
+    'values' =>
+    [
+      'border-box',
+      'padding-box',
+      'content-box',
+    ]
   },
   {
     'name' => 'backGround-siZe',
@@ -694,12 +720,12 @@ Props = [
     'values' =>
     [
       'none',
+      'before',
+      'after',
       'accent',
       'doT',
       'circle',
       'diSc',
-      'before',
-      'after',
     ]
   },
   {
