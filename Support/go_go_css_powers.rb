@@ -39,9 +39,10 @@ def checkPrefixes(input, where)
   foundPrefixes = Props.select{ |item| item['name'] == where && item['prefixes'] }[0]
   if foundPrefixes
     foundPrefixes['prefixes'].each do |prefix|
-      result << input.gsub(/(\s*)(.+)/,'\1'+ prefix +'\2') + "\n"
+      result << input.gsub(/(\s*)(.+)/, $indent + prefix +'\2') + "\n"
     end
     result += $indent
+    result.sub!(/^\s+/,'')
   end
   result = input if result == ''
   return result
