@@ -15,3 +15,4 @@ Besides CSS Expand I've added some features that I dreamed for. Look for their d
 
 * [Commands for incrementing/decrementing numbers](/kizu/Hayaku.tmbundle/wiki/Numbers/)
 * [Multiple Carets](/kizu/Hayaku.tmbundle/wiki/Carets/)
+* [Inline Replaces](/kizu/Hayaku.tmbundle/wiki/Replaces/)
