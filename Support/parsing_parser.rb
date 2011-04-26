@@ -87,7 +87,13 @@ def ParseAbbreviation( input )
       result['dimension'] += '${|/^(a$)?(au$)?(aut$)?.*/(?1:uto)(?2:to)(?3:o)/}'
     elsif result['found'][0] && (result['found'][0].index(/-?color$/) or result['found'][0].downcase == 'background')
       # Again, hardcoded autounits for colors
-      result['dimension'] = '${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:rgba\()/}${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/}${|}${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}${|/^(?=((\d{1,3}%?),(.+)?$)?).+$/(?1:(?3::$2,$2,1)\))/}'
+      result['dimension'] =
+        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:rgba\((?3:$2,$2,))/}' + # Rgba start
+        '${|/^(?=(\((.+)?$)?).+$/(?1:rgba)/}' + # Alternate rgba start
+        '${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/}' + # If in need of hash
+        '${|}' + # initial tabstop
+        '${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}' + # Hex Digit multiplication
+        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:(?3:(?4::5):(?4::$2,$2,1))\))/}' # Rgba end
     end
     result['importance'] = true if current[4]
 
