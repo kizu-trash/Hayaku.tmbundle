@@ -11,4 +11,7 @@ It uses some dictionary with all the CSS properties and values in a hash and whe
 The bundle uses an `Tab` key for expand.
 
 ## Other features
-Besides CSS Expand I've added some features that I dreamed for. Look for their description in wiki!
+Besides CSS Expand I've added some features that I dreamed for. Look for their description in wiki:
+
+* [Commands for incrementing/decrementing numbers](wiki/Numbers/)
+* [Multiple Carets](wiki/Carets/)
