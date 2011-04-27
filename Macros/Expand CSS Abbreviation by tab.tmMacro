@@ -35,7 +35,7 @@
 				<key>command</key>
 				<string>#!/usr/bin/env ruby
 require ENV['TM_BUNDLE_SUPPORT'] + "/go_go_css_powers.rb"
-CheckNeedInExpand()</string>
+CheckNeedInExpand('tab')</string>
 				<key>fallbackInput</key>
 				<string>none</string>
 				<key>input</key>
@@ -62,7 +62,7 @@ CheckNeedInExpand()</string>
 				<key>command</key>
 				<string>#!/usr/bin/env ruby
 require ENV['TM_BUNDLE_SUPPORT'] + "/go_go_css_powers.rb"
-GoGoCSSPower()
+GoGoCSSPower(e_sn(STDIN.read.gsub(' ‸','')))
 </string>
 				<key>fallbackInput</key>
 				<string>line</string>
@@ -84,7 +84,7 @@ GoGoCSSPower()
 	<key>keyEquivalent</key>
 	<string>	</string>
 	<key>name</key>
-	<string>Expand CSS Abbreviation</string>
+	<string>Expand CSS Abbreviation by tab</string>
 	<key>scope</key>
 	<string>source.css -meta.property-value.css -punctuation.terminator.rule.css</string>
 	<key>uuid</key>

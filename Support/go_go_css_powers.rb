@@ -10,21 +10,19 @@ require require_support + 'ololo_dictionary.rb'
 require require_support + 'parsing_parser.rb'
 require require_support + 'variable_variables.rb'
 
-@input = e_sn(STDIN.read.gsub(' ‸',''))
-
-
-def CheckNeedInExpand()
+def CheckNeedInExpand(shortCut)
   # get left and right part from caret position
   left = ''
   left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
   right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
 
-  if ENV['TM_SELECTED_TEXT'] == ' ' and right.match(/^\s*[;}]?$/) and !(left+right).match(/^\s*$/) and !left.match(/;\s+$/)
+  if ENV['TM_SELECTED_TEXT'] == ' ' and right.match(/^\s*[;}]?|\s*['"].*>.*$/) and !(left+right).match(/^\s*$/) and !left.match(/;\s+$/)
     print '‸'
     exit 203
   else
+    TextMate.exit_discard if shortCut == 'shortcut'
     # if there is nothing on the right from the caret then create newline with indentation
-    if right.match(/^\s*[;}]?$/) and !(left+right).match(/^\s*$/)
+    if right.match(/^\s*[;}]?$/) and !(left+right).match(/^\s*$/) and shortCut == 'tab'
       print "\n" + $indent
     else
       print $syntax_tab
@@ -98,20 +96,32 @@ def ExpandCSSAbbreviation( inputs )
   return @results.join()
 end
 
-def GoGoCSSPower()
-  initInput = @input
-  result = ''
-  result = @input.split('{')[0] + '{' if initInput.include?('{')
-  @input = @input.gsub(/[^\{]*\{/,'')
-  result += ExpandCSSAbbreviation(@input)
+def GoGoCSSPower(input)
+  $result = ''
+  $prefix = ''
+  $postfix = ''
+  if input.match(/style=/)
+    input.gsub(/^(.*style=(['"]))((?:(?!\2).)+)(\2.*)?$/){
+      $prefix = $1 if $1
+      $result = ExpandCSSAbbreviation($3)
+      $postfix = $4 if $4
+    }
+  elsif input.include?('{') or input.include?('}')
+    input.gsub(/^(.*\{)?([^}{]*)(\}.*)?$/){
+      $prefix = $1 if $1
+      $result = ExpandCSSAbbreviation($2)
+      $postfix = $3 if $3
+    }
+  else
+    $result += ExpandCSSAbbreviation(input)
+  end
   
-  
-  if result && result != ''
+  if $result && $result != ''
     # If there is no ending tabstop then add it after the last semicolon
-    if !result.include? '$0'
-      result.gsub!(/;(?!.*;.*)/m,';$0')
+    if !$result.include? '$0'
+      $result.gsub!(/;(?!.*;.*)/m,';$0')
     end
-    print result
+    print $prefix + $result + $postfix
   else
     TextMate.exit_discard
   end
