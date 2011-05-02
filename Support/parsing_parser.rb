@@ -82,9 +82,6 @@ def ParseAbbreviation( input )
     elsif Props.select{ |item| item['name'] == result['found'][0] && item['units'] && item['units'].include?('px') && item['units'].include?('em') }[0]
       # Autounits for value
       result['dimension'] = '${|}${|/((?!^0$)(?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
-      
-      # Autocomplete (must be generated from Hash)
-      result['dimension'] += '${|/^(a$)?(au$)?(aut$)?.*/(?1:uto)(?2:to)(?3:o)/}'
     elsif result['found'][0] && (result['found'][0].index(/-?color$/) or result['found'][0].downcase == 'background')
       # Again, hardcoded autounits for colors
       result['dimension'] =
@@ -95,9 +92,32 @@ def ParseAbbreviation( input )
         '${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}' + # Hex Digit multiplication
         '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:(?3:(?4::5):(?4::$2,$2,1))\))/}' # Rgba end
     end
+
+    # Autocomplete
+    foundValues = Props.select{ |item| item['name'] == result['found'][0] && item['values'] }[0]
+    if foundValues
+      splitLefts = []
+      splitRights = []
+      foundValues['values'].push('inherit').each do |value| # with adding of inherit
+        value.downcase!
+        if value.length > 1
+         for i in 1..value.length-1 # need to use only first N chars if there'd be some perfomance problems
+            if !splitLefts.include? value[0,i]
+              splitLefts.push Regexp.escape(value[0,i]).gsub(/\\([- ])/,'\1')
+              splitRights.push Regexp.escape(value[i,value.length]).gsub(/\\([- ])/,'\1')
+            end
+          end
+        end
+      end
+      # generating autocomplete snippet from found pairs
+      splitLefts.collect!{|x| '('+x+'$)?'}
+      splitRights = splitRights.each_with_index.collect{|x,i| '(?'+(i+1).to_s+':'+x+')'}
+      result['autocomplete'] = '${|/^' + splitLefts.join('') + '.*/' + splitRights.join('') + '/}'
+    end
+
     result['importance'] = true if current[4]
 
-    result      
+    result
   else
     result = nil
   end

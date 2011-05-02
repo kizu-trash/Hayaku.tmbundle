@@ -65,6 +65,7 @@ def ExpandCSSAbbreviation( inputs )
         @result += @expanded['found'][1].downcase if @expanded['found'][1]
         @result += @expanded['dimension']||''
         @result += '$|' if !@expanded['dimension'] && @expanded['found'][1] == ''
+        @result += @expanded['autocomplete']||''
         @result += ' !important' if @expanded['importance']
         @result += ';'
         @result = checkPrefixes(@result,@expanded['found'][0])
