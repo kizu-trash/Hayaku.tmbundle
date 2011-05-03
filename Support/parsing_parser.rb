@@ -79,42 +79,43 @@ def ParseAbbreviation( input )
           end
         end
       result['dimension'] = dimension if dimension
-    elsif Props.select{ |item| item['name'] == result['found'][0] && item['units'] && item['units'].include?('px') && item['units'].include?('em') }[0]
+    elsif Props.select{ |item| item['name'] == result['found'][0] && result['found'][1] == '' && item['units'] && item['units'].include?('px') && item['units'].include?('em') }[0]
       # Autounits for value
-      result['dimension'] = '${|}${|/((?!^0$)(?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/}'
+      result['dimension'] = '${|}${|/((?!^0$)(?=.)[\d\-]*(\.)?(\d+)?$)?.*/(?1:(?2:(?3::0)em:px))/m}'
     elsif result['found'][0] && (result['found'][0].index(/-?color$/) or result['found'][0].downcase == 'background')
       # Again, hardcoded autounits for colors
       result['dimension'] =
-        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:rgba\((?3:$2,$2,))/}' + # Rgba start
-        '${|/^(?=(\((.+)?$)?).+$/(?1:rgba)/}' + # Alternate rgba start
-        '${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/}' + # If in need of hash
+        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:rgba\((?3:$2,$2,))/m}' + # Rgba start
+        '${|/^(?=(\((.+)?$)?).+$/(?1:rgba)/m}' + # Alternate rgba start
+        '${|/^(?=([0-9a-fA-F]{1,6}$)?).+$/(?1:#)/m}' + # If in need of hash
         '${|}' + # initial tabstop
-        '${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/}' + # Hex Digit multiplication
-        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:(?3:(?4::5):(?4::$2,$2,1))\))/}' # Rgba end
+        '${|/^(#?([0-9a-fA-F]{1,2})$)?.*/(?1:(?2:$2$2))/m}' + # Hex Digit multiplication
+        '${|/^(?=((\d{1,3}%?),(\.)?(.+)?$)?).+$/(?1:(?3:(?4::5):(?4::$2,$2,1))\))/m}' # Rgba end
     end
-
+    
     # Autocomplete
-    foundValues = Props.select{ |item| item['name'] == result['found'][0] && item['values'] }[0]
-    if foundValues
-      splitLefts = []
-      splitRights = []
-      foundValues['values'].push('inherit').each do |value| # with adding of inherit
-        value.downcase!
-        if value.length > 1
-         for i in 1..value.length-1 # need to use only first N chars if there'd be some perfomance problems
-            if !splitLefts.include? value[0,i]
-              splitLefts.push Regexp.escape(value[0,i]).gsub(/\\([- ])/,'\1')
-              splitRights.push Regexp.escape(value[i,value.length]).gsub(/\\([- ])/,'\1')
+    if result['found'][1].length == 0
+      foundValues = Props.select{ |item| item['name'] == result['found'][0] && item['values'] }[0]
+      if foundValues
+        splitLefts = []
+        splitRights = []
+        foundValues['values'].push('inherit').each do |value| # with adding of inherit
+          value.downcase!
+          if value.length > 1
+           for i in 1..value.length-1 # need to use only first N chars if there'd be some perfomance problems
+              if !splitLefts.include? value[0,i]
+                splitLefts.push Regexp.escape(value[0,i]).gsub(/\\([- ])/,'\1')
+                splitRights.push Regexp.escape(value[i,value.length]).gsub(/\\([- ])/,'\1')
+              end
             end
           end
         end
+        # generating autocomplete snippet from found pairs
+        splitLefts.collect!{|x| '('+x+'$)?'}
+        splitRights = splitRights.each_with_index.collect{|x,i| '(?'+(i+1).to_s+':'+x+')'}
+        result['autocomplete'] = '${|/^' + splitLefts.join('') + '.*/' + splitRights.join('') + '/m}'
       end
-      # generating autocomplete snippet from found pairs
-      splitLefts.collect!{|x| '('+x+'$)?'}
-      splitRights = splitRights.each_with_index.collect{|x,i| '(?'+(i+1).to_s+':'+x+')'}
-      result['autocomplete'] = '${|/^' + splitLefts.join('') + '.*/' + splitRights.join('') + '/}'
     end
-
     result['importance'] = true if current[4]
 
     result
