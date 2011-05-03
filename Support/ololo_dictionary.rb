@@ -227,7 +227,8 @@ Props = [
   },
   {
     'name' => 'zoom',
-    'units' => ['']
+    'units' => [''],
+    'default' => '1'
   },
   {
     'name' => 'cliP',
