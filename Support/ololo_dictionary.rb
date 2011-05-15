@@ -29,6 +29,7 @@ Commons = {
     'px',
     'em',
     'ex',
+    'rem',
     '%',
     'in',
     'cm',
