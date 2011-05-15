@@ -23,11 +23,26 @@ else
   if ENV['TM_CURRENT_WORD'].index(/\d/)
     # mark caret position for digit find
     result = left + "‸" + right
-    result.gsub!(/([\w\-\.]*)‸([\w\-\.]*)/){
-      ($1 + $2).gsub(/([\d\-\.]+)/){
-        ($1.to_f + Modifier).to_s.gsub(/\.0$/,'')
+    if result.match(/(^|(?!\d)\w)‸((?:(?!\d)\w)*)(-?\d*\.?\d+|\d+(?:\.\d+)?)/)
+      # if the caret is before number
+      result.gsub!(/(^|(?!\d)\w)‸((?:(?!\d)\w)*)(-?\d*\.?\d+|\d+(?:\.\d+)?)/){
+        $1 + $2 + ($3.to_f + Modifier).to_s.gsub(/\.0$/,'')
       }
-    }
+    elsif result.match(/(-?\d*\.?\d+|\d+(?:\.\d+)?)((?:(?!\d)\w)*)‸($|(?!\d)\w)/)
+      # if the caret is after number
+      result.gsub!(/(-?\d*\.?\d+|\d+(?:\.\d+)?)((?:(?!\d)\w)*)‸((?!\d)\w|$)/){
+        found = [$1,$2||'',$3||'']
+        (found[0].to_f + Modifier).to_s.gsub(/\.0$/,'') + found[1] + found[2]
+      }
+    else
+      # if the caret is in middle of number
+      # need refactoring (
+      result.gsub!(/([\w\-\.]*)‸([\w\-\.]*)/){
+        ($1 + $2).gsub(/([\d\-\.]+)/){
+          ($1.to_f + Modifier).to_s.gsub(/\.0$/,'')
+        }
+      }
+    end
     # place caret after replace
     jumpIndex = ENV['TM_LINE_INDEX'].to_i + result.length - ENV['TM_CURRENT_LINE'].length
     jumpIndex = 0 if jumpIndex < 0
