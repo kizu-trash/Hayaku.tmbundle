@@ -456,7 +456,8 @@ Props = [
     'name' => 'backGround',
     'values' =>
     [
-      'none'
+      'none',
+      'transparent'
     ]
   },
   {
@@ -1024,7 +1025,17 @@ Props = [
       'translate($|)'
     ],
     'prefixes' => Commons['prefixes']
-  }
+  },
+  {
+    'name' => 'user-select',
+    'values' =>
+    [
+      'none',
+      'auto',
+      'text'
+    ],
+    'prefixes' => Commons['prefixes-bra']
+  },
 ]
 
 GlobalShortCuts = {
