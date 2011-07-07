@@ -56,10 +56,16 @@ def ReplaceCarets(someInput)
   
   if someInput
     result.gsub!(/⟨([^⟩]*)⟩/m,'${1}') if result.index(/⟨[^⟩]*⟩/)
-    result.gsub!(/⦉([^⦊]*)⦊/m,'${1:\1}$0${1/^.+$//gm}') if result.index(/⦉[^⦊]*⦊/)
+    result.gsub!(/⦉([^⦊]*)⦊/m){
+      '${1:'+$1.gsub('}','\}')+'}$0${1/^.+$//gm}'
+    } if result.index(/⦉[^⦊]*⦊/)
   else
-    result.gsub!(/⟨([^⟩]*)⟩/m,'${1/^(⟨)?.+$/(?1:⟨\1⟩:$0)/gm}') if result.index(/⟨[^⟩]*⟩/)
-    result.gsub!(/⦉([^⦊]*)⦊/m,'${1:⟨\1⟩}$0${1/^.+$//gm}') if result.index(/⦉[^⦊]*⦊/)
+    result.gsub!(/⟨([^⟩]*)⟩/m){
+      '${1/^(⟨)?.+$/(?1:⟨'+e_snp($1)+'⟩:$0)/gm}'
+    } if result.index(/⟨[^⟩]*⟩/)
+    result.gsub!(/⦉([^⦊]*)⦊/m){
+      '${1:⟨'+$1.gsub('}','\}')+'⟩}$0${1/^.+$//gm}'
+    } if result.index(/⦉[^⦊]*⦊/)
   end
 
   print result

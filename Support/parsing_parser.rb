@@ -94,7 +94,7 @@ def ParseAbbreviation( input )
     end
     
     # Autocomplete
-    if result['found'][1].length == 0
+    if result['found'][1].length == 0 and (!result['dimension'] or result['dimension'].include?'|')
       foundValues = Props.select{ |item| item['name'] == result['found'][0] && item['values'] }[0]
       if foundValues
         splitLefts = []
