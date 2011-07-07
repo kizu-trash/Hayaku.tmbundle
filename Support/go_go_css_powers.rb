@@ -59,7 +59,6 @@ def ExpandCSSAbbreviation( inputs )
       @results << input
     else
       @expanded = ParseAbbreviation(input)
-      
       if @expanded and !(ParseAbbreviation(input.split(':')[0]) and input.split(':')[1])
         @result += @expanded['found'][0].downcase + ':' + $syntax_space if @expanded['found'][0]
         @result += @expanded['found'][1].downcase if @expanded['found'][1]
@@ -67,9 +66,9 @@ def ExpandCSSAbbreviation( inputs )
         @result += '$|' if !@expanded['dimension'] && @expanded['found'][1] == ''
         @result += @expanded['autocomplete']||''
         @result += ' !important' if @expanded['importance']
-        @result += ';'
+        @result += ';' if !@result.include?'|'
+        @result += '${|/(.*;$)?.*/(?1::;)/m}' if @result.include?'|'
         @result = checkPrefixes(@result,@expanded['found'][0])
-  
         @results << @result
       else
         @results << input
@@ -120,7 +119,7 @@ def GoGoCSSPower(input)
   if $result && $result != ''
     # If there is no ending tabstop then add it after the last semicolon
     if !$result.include? '$0'
-      $result.gsub!(/;(?!.*;.*)/m,';$0')
+      $result.gsub!(/(;|::;\)\/m\})(?!.*(;|::;\)\/m\}).*)/m,'\1$0')
     end
     print $prefix + $result + $postfix
   else
