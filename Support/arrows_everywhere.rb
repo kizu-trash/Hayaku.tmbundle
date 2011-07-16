@@ -13,7 +13,7 @@ def swapRule(property,value)
   # must be no case-sensitive
   currentIndex = foundValues.index(value)
   if currentIndex
-    if Modifier > 0 
+    if Modifier < 0 
       newvalue = foundValues[currentIndex+1]
       newvalue = foundValues[0] if currentIndex == foundValues.length-1
     else
