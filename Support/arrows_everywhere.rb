@@ -9,7 +9,7 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 
 def swapRule(property,value)
-  foundValues = Props.select{ |item| item['name'] == property && item['values'] }[0]['values']
+  foundValues = valuesOf(property)
   # must be no case-sensitive
   currentIndex = foundValues.index(value)
   if currentIndex

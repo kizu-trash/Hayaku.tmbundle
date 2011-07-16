@@ -95,11 +95,11 @@ def ParseAbbreviation( input )
     
     # Autocomplete
     if result['found'][1].length == 0 and (!result['dimension'] or result['dimension'].include?'|')
-      foundValues = Props.select{ |item| item['name'] == result['found'][0] && item['values'] }[0]
+      foundValues = valuesOf(result['found'][0])
       if foundValues
         splitLefts = []
         splitRights = []
-        foundValues['values'].push('inherit').each do |value| # with adding of inherit
+        foundValues.each do |value| # with adding of inherit
           value.downcase!
           if value.length > 1
            for i in 1..value.length-1 # need to use only first N chars if there'd be some perfomance problems

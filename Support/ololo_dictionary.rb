@@ -1,5 +1,11 @@
 #*_*#
 
+def valuesOf(property)
+  result = Props.select{ |item| item['name'] == property && item['values'] }[0]['values']
+  result.push('inherit') if result
+  return result
+end
+
 Commons = {
   'overflow' =>
   [
