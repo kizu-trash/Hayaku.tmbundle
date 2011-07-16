@@ -8,6 +8,55 @@ require require_support + 'ololo_dictionary.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 
+def swapRule(property,value)
+  foundValues = Props.select{ |item| item['name'] == property && item['values'] }[0]['values']
+  # must be no case-sensitive
+  currentIndex = foundValues.index(value)
+  if currentIndex
+    if Modifier > 0 
+      newvalue = foundValues[currentIndex+1]
+      newvalue = foundValues[0] if currentIndex == foundValues.length-1
+    else
+      newvalue = foundValues[currentIndex-1]
+      newvalue = foundValues[-1] if currentIndex == 0
+    end
+  end
+  # if there is a partial writing autocomplete it
+  newvalue = foundValues[0] if !currentIndex
+  return newvalue if newvalue
+  TextMate.exit_discard
+end
+
+def findRule()
+  # get left and right part from caret position
+  left = ''
+  left = ENV['TM_CURRENT_LINE'].slice(0..ENV['TM_LINE_INDEX'].to_i-1) if ENV['TM_LINE_INDEX'].to_i > 0
+  right = ENV['TM_CURRENT_LINE'].slice(ENV['TM_LINE_INDEX'].to_i..-1)
+
+  result = left + "‸" + right
+
+  # If caret is on property
+  result.gsub(/^(.*?)([a-z\-]*)‸([a-z\-]*)(:\s*)([^;]*)([;}].*)$/m){
+    result = $1+$2+'${1}'+$3+$4+swapRule($2+$3,$5)+$6
+  }
+
+  # If caret is on value
+  result.gsub(/^(.*?)([a-z\-]*)(:\s*)([^;]*)‸([^;]*)([;}].*)$/m){
+    rule = swapRule($2,$4+$5)
+    whereTo = [$4.length,rule.length].min
+    whereTo = rule.length if $5.length == 0
+    result = $1+$2+$3+rule.insert(whereTo,'${1}')+$6
+  }
+
+  # If caret is after 
+  result.gsub(/^(.*?)([a-z\-]*)(:\s*)([^;]*)([;}].*)‸([^:]*)$/m){
+    result = $1+$2+$3+swapRule($2,$4)+$5+'${1}'+$6
+  }
+
+  # need escaping, whitespace at the ^ and better tabstops in value
+  return result if !result.include?('‸')
+end
+
 if ENV['TM_SELECTED_TEXT']
   if ENV['TM_SELECTED_TEXT'].index(/^[\d\-\.]+$/)
     print "${0:"+ (ENV['TM_SELECTED_TEXT'].to_f + Modifier).to_s.gsub(/\.0$/,'') +"}"
@@ -51,6 +100,8 @@ else
     print e_sn(result).gsub('⦉\${0}⦊','${0}')
     
   else
-    TextMate.exit_discard
+    swapping = findRule()
+    print swapping if swapping
+    TextMate.exit_discard if !swapping
   end
 end
