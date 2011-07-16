@@ -100,7 +100,7 @@ else
     print e_sn(result).gsub('⦉\${0}⦊','${0}')
     
   else
-    swapping = findRule()
+    swapping = findRule() if ENV['TM_SCOPE'].include?('source.css') or ENV['TM_SCOPE'].include?('string.quoted.double.html')
     print swapping if swapping
     TextMate.exit_discard if !swapping
   end
