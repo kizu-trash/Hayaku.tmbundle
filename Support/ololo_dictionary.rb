@@ -1,9 +1,10 @@
 #*_*#
 
 def valuesOf(property)
-  result = Props.select{ |item| item['name'] == property && item['values'] }[0]['values']
-  result.push('inherit') if result
-  return result
+  result = Props.select{ |item| item['name'] == property && item['values'] }[0]
+  result = result['values'] if result
+  result = [] if !result
+  return result.push('inherit')
 end
 
 Commons = {

@@ -11,7 +11,7 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
 def swapRule(property,value)
   foundValues = valuesOf(property)
   # must be no case-sensitive
-  currentIndex = foundValues.index(value)
+  currentIndex = foundValues.index(value) if foundValues
   if currentIndex
     if Modifier < 0 
       newvalue = foundValues[currentIndex+1]
@@ -22,7 +22,7 @@ def swapRule(property,value)
     end
   end
   # if there is a partial writing autocomplete it
-  newvalue = foundValues[0] if !currentIndex
+  newvalue = foundValues[0] if !currentIndex and foundValues
   return newvalue if newvalue
   TextMate.exit_discard
 end
