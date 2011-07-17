@@ -86,7 +86,7 @@ GoGoCSSPower(e_sn(STDIN.read.gsub(' ‸','')))
 	<key>name</key>
 	<string>Expand CSS Abbreviation by shortcut</string>
 	<key>scope</key>
-	<string>source.css,string.quoted.double.html</string>
+	<string>source.css, string.quoted.double.html, string.quoted.single.html</string>
 	<key>uuid</key>
 	<string>28017C9D-D3A7-42DF-A3CE-4BB2C0D16754</string>
 </dict>
