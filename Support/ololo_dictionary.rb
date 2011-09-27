@@ -502,7 +502,7 @@ Props = [
   },
   {
     'name' => 'backGround-position',
-    'values' => Commons['repeats']
+    'units' => Commons['lengths']
   },
   {
     'name' => 'backGround-position-x',
@@ -717,7 +717,7 @@ Props = [
     
   },
   {
-    'name' => 'text-overflow',
+    'name' => 'text-overFlow',
     'values' =>
     [
       'none',
@@ -854,6 +854,7 @@ Props = [
     'values' =>
     [
       'normal',
+      'break-word',
       'none',
       'unrestricted',
       'suppress',
