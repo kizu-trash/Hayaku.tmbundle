@@ -2,8 +2,56 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>mainMenu</key>
+	<dict>
+		<key>excludedItems</key>
+		<array>
+			<string>51085794-99FE-45A4-A6A9-8D081B5932F6</string>
+			<string>6BE58A9B-2850-49DC-A182-D1EC0A059E12</string>
+			<string>C6EEC1F7-E9FE-4F15-8062-69676665D95C</string>
+		</array>
+		<key>items</key>
+		<array>
+			<string>806EC190-7169-4532-9986-DD93BD924B23</string>
+			<string>C995AF6F-4FC4-445E-AD90-D02C27CABCFC</string>
+			<string>875D9AAC-3BC9-4304-AB0F-2532AEFA0251</string>
+			<string>594C1F69-B993-4E16-8FE3-FF7512EE5FA3</string>
+			<string>A35C4E38-B4B4-46AE-9C4A-E68268B881BA</string>
+			<string>77DA912B-DD06-4B20-8F33-C7835EE5E780</string>
+			<string>CB4BA173-C983-421E-8F89-49A61615F279</string>
+			<string>09F29D31-73CF-425A-A544-7957478BFF92</string>
+			<string>2CF36C49-E1B2-42ED-8226-34C1BE79D0E6</string>
+			<string>28017C9D-D3A7-42DF-A3CE-4BB2C0D16754</string>
+			<string>D023FE5F-1294-4122-BACE-D5837CEC36A3</string>
+			<string>739CE1EB-6B9D-41D1-A89C-F53BA569801A</string>
+			<string>D71355E5-1321-4ECA-91A8-7612A51826B7</string>
+			<string>350AFB53-5379-440F-8073-3349461EFCE3</string>
+		</array>
+		<key>submenus</key>
+		<dict/>
+	</dict>
 	<key>name</key>
 	<string>Hayaku CSS</string>
+	<key>ordering</key>
+	<array>
+		<string>2CF36C49-E1B2-42ED-8226-34C1BE79D0E6</string>
+		<string>51085794-99FE-45A4-A6A9-8D081B5932F6</string>
+		<string>806EC190-7169-4532-9986-DD93BD924B23</string>
+		<string>C995AF6F-4FC4-445E-AD90-D02C27CABCFC</string>
+		<string>875D9AAC-3BC9-4304-AB0F-2532AEFA0251</string>
+		<string>594C1F69-B993-4E16-8FE3-FF7512EE5FA3</string>
+		<string>A35C4E38-B4B4-46AE-9C4A-E68268B881BA</string>
+		<string>77DA912B-DD06-4B20-8F33-C7835EE5E780</string>
+		<string>CB4BA173-C983-421E-8F89-49A61615F279</string>
+		<string>09F29D31-73CF-425A-A544-7957478BFF92</string>
+		<string>28017C9D-D3A7-42DF-A3CE-4BB2C0D16754</string>
+		<string>D023FE5F-1294-4122-BACE-D5837CEC36A3</string>
+		<string>6BE58A9B-2850-49DC-A182-D1EC0A059E12</string>
+		<string>C6EEC1F7-E9FE-4F15-8062-69676665D95C</string>
+		<string>739CE1EB-6B9D-41D1-A89C-F53BA569801A</string>
+		<string>D71355E5-1321-4ECA-91A8-7612A51826B7</string>
+		<string>350AFB53-5379-440F-8073-3349461EFCE3</string>
+	</array>
 	<key>uuid</key>
 	<string>A5D15E78-40A7-4067-9674-B1877E747242</string>
 </dict>
